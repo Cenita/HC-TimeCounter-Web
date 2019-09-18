@@ -3,7 +3,11 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-
+import $ from 'jquery' ;
+import 'mdui/dist/css/mdui.min.css';
+import 'mdui/dist/js/mdui.min';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.min.js';
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
