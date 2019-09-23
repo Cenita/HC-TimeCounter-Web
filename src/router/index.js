@@ -6,6 +6,7 @@ const panel = () => import('@/views/Panel')
 const login = () => import('@/views/Login')
 const register = () => import('@/views/Register')
 const forget = () => import('@/views/Forget')
+const setter = () => import('@/views/Setter')
 
 Vue.use(Router)
 
@@ -31,6 +32,9 @@ export default new Router({
           path:'/forget',
           component:forget
         }]
+      },{
+        path:'/set',
+        component: setter
       }
       ]
     }

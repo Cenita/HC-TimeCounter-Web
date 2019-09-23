@@ -3,7 +3,7 @@
       <td>{{index}}</td>
       <td>
         <div class="mdui-chip" style="background: white">
-          <img class="mdui-chip-icon" src="../assets/image/默认头像-男.jpg">
+          <img class="mdui-chip-icon" src="../../assets/image/默认头像-男.jpg">
           <span class="mdui-chip-title">{{name}}</span>
         </div>
       </td>

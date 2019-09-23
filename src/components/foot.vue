@@ -38,7 +38,7 @@
           </div>
         </div>
       </div>
-      <div :hidden="hid" class="content" style="color: white;text-align: center">
+      <div v-if="show" class="content" style="color: white;text-align: center">
         <div class="introduce">
           <p>开发人员简介</p>
           <div>&nbsp</div>
@@ -63,6 +63,11 @@
           <p style="margin-bottom: 0px"><a href="http://www.hclab.com">工作室官网</a></p>
         </div>
       </div>
+      <div v-else class="content" style="color: white;text-align: center;">
+        <p>粤ICP备14046782号 © 2017 HCLAB since 1999. All rights reserved</p>
+        <p>相关链接</p>
+        <p style="margin-bottom: 0px"><a href="http://www.hclab.com">工作室官网</a></p>
+      </div>
     </div>
 </template>
 
@@ -72,7 +77,7 @@
         name: "foot",
       data:function () {
         return {
-          hid:false
+          show:false
         }
       }
     }

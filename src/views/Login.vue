@@ -21,6 +21,7 @@
 </template>
 
 <script>
+  import {mapMutations} from 'vuex'
     export default {
         name: "Login",
       data:function () {
@@ -36,6 +37,7 @@
         }
       },
       methods:{
+        ...mapMutations(['changeLogin']),
           checkNumber(){
             if(this.stnumber.length!=11){
               this.number_error = true
@@ -51,10 +53,11 @@
               this.password_error = false
             }
         },login(){
-            this.checkPassword()
-            this.checkNumber()
+            this.checkPassword();
+            this.checkNumber();
             if(!this.password_error && !this.number_error){
-              this.logining=true
+              this.changeLogin({Authorization:"asfasf"})
+              this.$router.push('/')
             }else{
               return false;
             }

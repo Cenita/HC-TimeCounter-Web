@@ -1,7 +1,7 @@
 <template>
     <div>
       <narbar></narbar>
-      <div style="min-height: 200px;margin-bottom: 50px">
+      <div style="min-height: 200px;margin-bottom: 50px;min-height: 550px">
         <div class="mdui-container">
           <div class="mdui-row main_body">
             <router-view/>
