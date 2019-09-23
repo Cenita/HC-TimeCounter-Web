@@ -8,16 +8,15 @@
         </div>
       </td>
       <td>
-        <div class="progress mdui-ripple" data-toggle="tooltip" data-placement="top" title="" style="margin-bottom: 0px;height: 30px;line-height: 30px;" :data-original-title="time_string">
-          <div class="progress-bar  progress-bar-danger active" role="progressbar" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100" :style="barwidth_string">
-            <span style="line-height: 30px">{{time_string}}</span>
-          </div>
-        </div>
+        <b-progress class="mdui-ripple" v-b-tooltip.hover :title="bar.time_string" :max="100"  :variant="variant" :striped="bar.run" :animated="bar.run" style="height: 30px">
+          <b-progress-bar :value="bar.length" style="" >{{bar.time_string}}</b-progress-bar>
+        </b-progress>
       </td>
     </tr>
 </template>
 
 <script>
+
     export default {
         name: "rank_item",
       data:function () {
@@ -25,13 +24,22 @@
           index:1,
           img_src:"../assets/image/默认头像-男.jpg",
           name:"陈慧涛",
-          time_string:"1000s",
-          barwidth:15,
+          bar:{
+            time_string:'0分钟',
+            length:70,
+            run:false
+          }
         }
       },
       computed:{
-          barwidth_string:function () {
-            return 'width:'+this.barwidth+'%'
+          variant:function () {
+            if(this.bar.length<=62.3){
+              return 'danger'
+            }else if(this.bar.length<100){
+              return 'info'
+            }else{
+              return 'success'
+            }
           }
       }
     }

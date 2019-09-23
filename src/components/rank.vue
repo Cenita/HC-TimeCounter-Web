@@ -2,11 +2,10 @@
     <div class="mdui-table-fluid">
       <div class="mdui-container">
         <div class="mdui-tab">
-          <a class="mdui-ripple mdui-tab-active">本周计时</a>
-          <a class="mdui-ripple">两周计时</a>
-          <a class="mdui-ripple">本月计时</a>
-          <a class="mdui-ripple">本学期计时</a>
-          <div class="mdui-tab-indicator" style="left: 0px; width: 112px;"></div>
+          <a class="mdui-ripple" :class="{'mdui-tab-active':itemIndex==0}" @click="choiceTime(0)">本周计时</a>
+          <a class="mdui-ripple" :class="{'mdui-tab-active':itemIndex==1}" @click="choiceTime(1)">两周计时</a>
+          <a class="mdui-ripple" :class="{'mdui-tab-active':itemIndex==2}" @click="choiceTime(2)">本月计时</a>
+          <a class="mdui-ripple" :class="{'mdui-tab-active':itemIndex==3}" @click="choiceTime(3)">本学期计时</a>
         </div>
         <div style="padding: 20px">
           <table class="mdui-table">
@@ -30,12 +29,24 @@
     import item from './rank_item'
     export default {
         name: "rank",
+      data:function(){
+          return {
+            itemIndex:0,
+          }
+      },
       components:{
           item
+      },
+      methods:{
+        choiceTime:function (index) {
+          this.itemIndex = index
+        }
       }
     }
 </script>
 
 <style scoped>
-
+  .mdui-tab-active{
+    border-bottom: 1px solid cornflowerblue;
+  }
 </style>

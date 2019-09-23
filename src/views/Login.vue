@@ -1,52 +1,75 @@
 <template>
     <div>
-      <div class="mdui-col-lg-2"></div>
-      <div class="mdui-col-lg-8">
-        <div class="loginPage mdui-col-xs-12">
-          <form id="loginform">
-            <h1>计时器登录</h1>
-            <div class="mdui-textfield mdui-textfield-floating-label">
-              <label class="mdui-textfield-label">学号</label>
-              <input class="mdui-textfield-input" type="text" name="stdNumber" id="stdNumber"/>
-            </div>
-            <div class="mdui-textfield mdui-textfield-floating-label">
-              <label class="mdui-textfield-label">密码</label>
-              <input class="mdui-textfield-input" type="password" name="stdPassword" id="stdPassword"/>
-            </div>
-            <button type="button" onclick="login();" id="loginbtn" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent mdui-color-blue-600">登录</button>
-            <div id="loading" style="display: none">
-              <div id="result" style="display: none">认证成功 <span style="color: red">3</span>秒后跳转</div>
-              <div id="loading_icon" class="mdui-spinner mdui-spinner-colorful"></div>
-            </div>
-          </form>
-        </div>
+      <h3>计时器登录</h3>
+      <div class="mdui-textfield mdui-textfield-floating-label" :class="{'mdui-textfield-invalid':number_error,'mdui-textfield-focus':stnumber}">
+        <label class="mdui-textfield-label">学号</label>
+        <input class="mdui-textfield-input" v-model="stnumber" @blur="checkNumber" type="text" name="stdNumber" id="stdNumber"/>
+        <label :hidden="!number_error" class="error-tips">{{number_error_text}}</label>
       </div>
-      <div class="mdui-col-lg-2"></div>
+      <div class="mdui-textfield mdui-textfield-floating-label" :class="{'mdui-textfield-invalid':password_error,'mdui-textfield-focus':password}">
+        <label class="mdui-textfield-label">密码</label>
+        <input class="mdui-textfield-input"  v-model="password" @blur="checkPassword" type="password" name="stdPassword" id="stdPassword"/>
+        <label :hidden="!password_error" class="error-tips">{{password_error_text}}</label>
+      </div>
+      <span><router-link to="/forget">忘记密码？</router-link></span>
+      <span style="float: right"><router-link to="/register">我要注册</router-link></span>
+      <button :hidden="logining" type="button" @keyup.enter="login"  @click="login" id="loginbtn" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent mdui-color-blue-600">登录</button>
+      <div class="mdui-progress" style="margin-top: 40px" :hidden="!logining">
+        <div class="mdui-progress-indeterminate"></div>
+      </div>
     </div>
 </template>
 
 <script>
     export default {
-        name: "Login"
+        name: "Login",
+      data:function () {
+        return {
+          stnumber:"",
+          password:"",
+          number_error:false,
+          password_error:false,
+          loading:false,
+          number_error_text:"",
+          password_error_text:"",
+          logining:false
+        }
+      },
+      methods:{
+          checkNumber(){
+            if(this.stnumber.length!=11){
+              this.number_error = true
+              this.number_error_text = '请输入正确的学号！'
+            }else{
+              this.number_error = false
+            }
+          },checkPassword(){
+            if(this.password==''){
+              this.password_error = true
+              this.password_error_text = "请输入密码"
+            }else{
+              this.password_error = false
+            }
+        },login(){
+            this.checkPassword()
+            this.checkNumber()
+            if(!this.password_error && !this.number_error){
+              this.logining=true
+            }else{
+              return false;
+            }
+        }
+      }
     }
 </script>
 
 <style scoped>
-  .loginPage{
-    height: 500px;
-    padding: 50px;
-    border: 1px solid #bde0ed;
-    border-radius: 15px;
-    margin:auto;
-    box-shadow: #bde0ed 1px 5px 20px 5px;
-    margin-top: 20px;
-  }
-  .main_body{
-    min-height: 500px;
+  .error-tips{
+    color:red
   }
 
   #loginbtn,#loading{
-    margin-top: 50px;
+    margin-top: 20px;
     width: 100%;
     height: 50px;
   }

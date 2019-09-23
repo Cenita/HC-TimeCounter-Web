@@ -1,14 +1,16 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import base from '@/views/BaseIndex'
-import index from '@/views/Index'
-import login from '@/views/Login'
-
+const base = () => import('@/views/BaseIndex')
+const index = () => import('@/views/Index')
+const panel = () => import('@/views/Panel')
+const login = () => import('@/views/Login')
+const register = () => import('@/views/Register')
+const forget = () => import('@/views/Forget')
 
 Vue.use(Router)
 
 export default new Router({
-  mode:'history',
+  mode:'hash',
   routes: [
     {
       path:'/',
@@ -17,8 +19,18 @@ export default new Router({
         path:'/',
         component: index
       },{
-        path:'/login',
-        component: login
+        path:'/panel',
+        component: panel,
+        children:[{
+          path:'/login',
+          component: login
+        },{
+          path:'/register',
+          component:register
+        },{
+          path:'/forget',
+          component:forget
+        }]
       }
       ]
     }

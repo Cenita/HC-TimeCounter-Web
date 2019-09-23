@@ -8,18 +8,18 @@
           </div>
         </div>
       </div>
-      <footer_inform style="margin-bottom: 0px"></footer_inform>
+      <inform style="margin-bottom: 0px"></inform>
     </div>
 </template>
 
 <script>
-    import narbar from '../components/Navbar'
-    import footer_inform from '../components/footer'
+    import narbar from '@/components/Navbar'
+    import inform from '@/components/foot'
     export default {
         name: "index",
         components:{
           narbar,
-          footer_inform
+          inform
         }
     }
 </script>

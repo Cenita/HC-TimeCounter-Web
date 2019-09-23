@@ -3,13 +3,13 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import $ from 'jquery' ;
 import 'mdui/dist/css/mdui.min.css';
-import 'mdui/dist/js/mdui.min';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.min.js';
-Vue.config.productionTip = false
-
+import 'mdui/dist/js/mdui.min.js';
+Vue.config.productionTip = false;
+import BootstrapVue from 'bootstrap-vue'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+Vue.use(BootstrapVue)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

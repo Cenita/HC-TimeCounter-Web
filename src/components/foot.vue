@@ -69,7 +69,7 @@
 <script>
     import $ from 'jquery'
     export default {
-        name: "footer",
+        name: "foot",
       data:function () {
         return {
           hid:false
