@@ -14,17 +14,17 @@
       </p>
       <h4 style="color: darkgrey">请各位小伙伴请填写常用设备的网络MAC地址，设备连接工作室WIFI后即可自动开始计时,无需打开网页</h4>
     </div>
-    <div style="height: 100px" class="mdui-textfield mdui-textfield-floating-label" id="mobile">
-      <label class="mdui-textfield-label">手机Mac地址填写(例如  94:87:E0:31:6B:75  的格式)</label>
-      <input class="mdui-textfield-input" type="text" name="mobile_mac" id="mobile_macString"/>
-      <div class="mdui-textfield-error errorContent">mac不能为空</div>
+    <div style="height: 100px" class="mdui-textfield mdui-textfield-floating-label" :class="{'mdui-textfield-invalid':mobileError}" id="mobile">
+      <label class="mdui-textfield-label">手机Mac地址填写(例如  94-87-E0-31-6B-75  的格式)</label>
+      <input class="mdui-textfield-input" maxlength="17" v-model="mac.mobile" type="text" name="mobile_mac" id="mobile_macString"/>
+      <div class="mdui-textfield-error errorContent" style="bottom: 0px;">Mac地址格式错误</div>
     </div>
-    <div style="height: 100px" class="mdui-textfield mdui-textfield-floating-label" id="computer">
-      <label class="mdui-textfield-label">电脑Mac地址填写(例如  94:87:E0:31:6B:75  的格式)</label>
-      <input class="mdui-textfield-input" type="text" name="computer_mac" id="computer_macString"/>
-      <div class="mdui-textfield-error errorContent">mac不能为空</div>
+    <div style="height: 100px" class="mdui-textfield mdui-textfield-floating-label" :class="{'mdui-textfield-invalid':computerError}" id="computer">
+      <label class="mdui-textfield-label">电脑Mac地址填写(例如  94-87-E0-31-6B-75  的格式)</label>
+      <input class="mdui-textfield-input" maxlength="17" v-model="mac.computer" type="text" name="computer_mac" id="computer_macString"/>
+      <div class="mdui-textfield-error errorContent" style="bottom: 0px;">Mac地址格式错误</div>
     </div>
-    <button type="button" style="margin-top: 20px;width: 100%" id="loginbtn" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent mdui-color-blue-600">保存</button>
+    <button type="button" style="margin-top: 20px;width: 100%" @click="save" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent mdui-color-blue-600">保存</button>
     <button type="button" style="margin-top: 20px;width: 100%" @click="loginOut" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-red mdui-color-blue-600 mdui-hidden-md-up">退出登录</button>
   </div>
 </template>
@@ -36,13 +36,61 @@
       data:function () {
         return {
           name:'陈慧涛',
+          mac:{
+            mobile:"",
+            computer:""
+          },
+          computerError:false,
+          mobileError:false
         }
       },
+      computed:{
+          getMobileMac(){
+            return this.mac.mobile
+          },
+          getComputerMac(){
+            return this.mac.computer
+          }
+      }
+      ,
+      watch:{
+        getMobileMac(val){
+          this.mac.mobile = this.helpInput(val)
+        },
+        getComputerMac(val){
+          this.mac.computer = this.helpInput(val)
+        }
+      }
+      ,
       methods:{
         ...mapMutations(['changeLogin']),
+        helpInput(val){
+          val = val.toString().toUpperCase();
+          switch (val.length) {
+            case 2:
+            case 5:
+            case 8:
+            case 11:
+            case 14:
+              val+='-'
+          }
+          return val
+        },
         loginOut(){
           this.changeLogin({Authorization:""});
           this.$router.push('/login')
+        },
+        save(){
+          this.mobileError=false;
+          this.computerError=false;
+          if(this.mac.mobile.length>0&&this.mac.mobile.length<17){
+            this.mac.mobile=""
+            this.mobileError=true
+          }
+          if(this.mac.computer.length>0&&this.mac.computer.length<17){
+            this.mac.computer=""
+            this.computerError=true
+          }
         }
       }
     }

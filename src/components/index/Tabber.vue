@@ -32,6 +32,9 @@
       watch:{
           $route(to,from){
             this.selected = to.path;
+            if(to.path=='/set'){
+              this.selected='/login'
+            }
           },
         selected:function(val,oldVal){
           this.$router.push(val.toString())
