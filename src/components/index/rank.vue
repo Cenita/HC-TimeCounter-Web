@@ -18,7 +18,7 @@
               </tr>
               </thead>
               <tbody>
-              <item></item>
+                <item v-for="user in list" :itemUser="user"></item>
               </tbody>
             </table>
           </div>
@@ -51,6 +51,7 @@
 
 <script>
     import item from './rank_item'
+    var timeInterval;
     export default {
         name: "rank",
       data:function(){
@@ -71,11 +72,18 @@
           })
         }
       },
-      created(){
+      mounted(){
           let _this = this;
           this.$axios.get('/api/getUserTime').then(res => {
             _this.list = res.data;
-          })
+          });
+          timeInterval = setInterval(function () {
+            _this.$axios.get('/api/getUserTime?type='+_this.itemIndex).then(res => {
+              _this.list = res.data;
+            })
+          },60000)
+      },destroyed(){
+          clearInterval(timeInterval)
       }
     }
 </script>
