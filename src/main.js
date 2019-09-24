@@ -5,11 +5,14 @@ import App from './App'
 import router from './router'
 import 'mdui/dist/css/mdui.min.css';
 import 'mdui/dist/js/mdui.min.js';
-Vue.config.productionTip = false;
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+Vue.config.productionTip = false;
 import store from './store'
+import { Tabbar, TabItem } from 'mint-ui';
+Vue.component(Tabbar.name, Tabbar);
+Vue.component(TabItem.name, TabItem);
 Vue.use(BootstrapVue)
 /* eslint-disable no-new */
 new Vue({

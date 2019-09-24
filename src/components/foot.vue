@@ -64,14 +64,21 @@
         </div>
       </div>
       <div v-else class="content" style="color: white;text-align: center;">
+
         <p>粤ICP备14046782号 © 2017 HCLAB since 1999. All rights reserved</p>
         <p>相关链接</p>
         <p style="margin-bottom: 0px"><a href="http://www.hclab.com">工作室官网</a></p>
+        <div class="mdui-hidden-md-up">
+          <status></status>
+        </div>
       </div>
     </div>
 </template>
 
 <script>
+  const status = () => import ('./nav/ServerStatus');
+
+
     import $ from 'jquery'
     export default {
         name: "foot",
@@ -79,6 +86,9 @@
         return {
           show:false
         }
+      },
+      components:{
+          status
       }
     }
     $(
@@ -146,8 +156,7 @@
   }
   .wave-box {
     position: relative;
-    height: 60px;
-    background: #fff
+    height: 59px;
   }
 
 </style>

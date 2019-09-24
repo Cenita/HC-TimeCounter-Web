@@ -3,7 +3,7 @@
       <td>{{index}}</td>
       <td>
         <div class="mdui-chip" style="background: white">
-          <img class="mdui-chip-icon" src="../../assets/image/默认头像-男.jpg">
+          <img class="mdui-chip-icon" src="../../assets/image/men.jpg">
           <span class="mdui-chip-title">{{name}}</span>
         </div>
       </td>
@@ -22,7 +22,7 @@
       data:function () {
         return {
           index:1,
-          img_src:"../assets/image/默认头像-男.jpg",
+          img_src:"../assets/image/men.jpg",
           name:"陈慧涛",
           bar:{
             time_string:'0分钟',
@@ -46,5 +46,7 @@
 </script>
 
 <style scoped>
-
+  .mdui-ripple:hover{
+    cursor: pointer;
+  }
 </style>

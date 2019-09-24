@@ -1,25 +1,28 @@
 <template>
     <div>
       <narbar></narbar>
-      <div style="min-height: 200px;margin-bottom: 50px;min-height: 550px">
+      <div style="margin-bottom: 50px">
         <div class="mdui-container">
           <div class="mdui-row main_body">
             <router-view/>
           </div>
         </div>
       </div>
-      <inform style="margin-bottom: 0px"></inform>
+      <inform class="mdui-hidden-sm-down" style="margin-bottom: 0px"></inform>
+      <tabber class="mdui-hidden-md-up"></tabber>
     </div>
 </template>
 
 <script>
-    import narbar from '@/components/Navbar'
-    import inform from '@/components/foot'
+  const narbar = () => import('@/components/Navbar')
+  const inform = () => import('@/components/foot')
+  const tabber = () => import('@/components/index/Tabber')
     export default {
         name: "index",
         components:{
           narbar,
-          inform
+          inform,
+          tabber
         }
     }
 </script>

@@ -1,19 +1,67 @@
 <template>
-  <div class="week_time mdui-row">
-    <div class="hours mdui-col-xs-3" data-toggle="tooltip" data-placement="top" title="时（Hours）"><div class="hoursNums" ></div></div>
-    <div class="dian mdui-col-xs-1">:</div>
-    <div class="minutes mdui-col-xs-3" data-toggle="tooltip" data-placement="top" title="分（Minutes）"><div class="rq"><div class="minuetsNums"></div></div></div>
-    <div class="dian mdui-col-xs-1">:</div>
-    <div class="seconds mdui-col-xs-3" style="margin-right: 0px" data-toggle="tooltip" data-placement="top" title="秒（Seconds）"><div class="secondNums"></div></div>
+  <div>
+    <div style="display: inline-block" id="Hours">{{getTimeString(time.hours)}}</div>
+    <div style="display: inline-block" >:</div>
+    <div style="display: inline-block" id="Minutes">{{getTimeString(time.minutus)}}</div>
+    <div style="display: inline-block" >:</div>
+    <div style="display: inline-block" id="Seconds">{{getTimeString(time.seconds)}}</div>
   </div>
 </template>
 
 <script>
     export default {
-        name: "TimeCounter"
+        name: "TimeCounter",
+      data:function () {
+        return{
+          time:{
+            hours:15,
+            minutus:59,
+            seconds:59
+          }
+        }
+      },
+      methods:{
+          getTimeString:function(val){
+            var t = 100+val;
+            t = "" + t;
+            t = t.slice(1,3);
+            return t
+        }
+      },
+      computed:{
+          getHoursNumber(){
+            return this.time.hours
+          },
+          getSecondsNumber(){
+            return this.time.seconds
+          },
+          getMinutesNumber(){
+            return this.time.minutus
+        },
+      },
+      watch:{
+        getMinutesNumber(val){
+          if(val>=60){
+            this.time.hours+=1
+            this.time.minutus=0
+          }
+        },
+        getSecondsNumber(val){
+          if(val>=60){
+            this.time.minutus+=1
+            this.time.seconds=0
+          }
+        }
+      },
+      created(){
+          var _this=this;
+          setInterval(function () {
+            _this.time.seconds+=1
+          },1000)
+      }
     }
 </script>
 
-<style scoped>
+<style>
 
 </style>
