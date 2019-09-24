@@ -17,13 +17,18 @@
       <div class="mdui-progress" style="margin-top: 40px" :hidden="!logining">
         <div class="mdui-progress-indeterminate"></div>
       </div>
+      <div class="mdui-hidden-md-up"  v-if="this.$store.state.Authorization==''" style="bottom: 10px;position: absolute;text-align: center">
+        <status></status>
+      </div>
     </div>
 </template>
 
 <script>
   import {mapMutations} from 'vuex'
+  const status = () => import('../components/nav/ServerStatus')
     export default {
         name: "Login",
+      components:{status},
       data:function () {
         return {
           stnumber:"",

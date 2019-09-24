@@ -2,13 +2,14 @@
     <div>
       <div class="mdui-col-lg-2"></div>
       <div class="mdui-col-lg-8">
-        <div class="loginPage mdui-col-xs-12">
+        <div class="loginPage mdui-col-xs-12 mdui-hidden-sm-down">
           <form id="loginform">
             <router-view/>
           </form>
         </div>
       </div>
       <div class="mdui-col-lg-2"></div>
+      <router-view class="mdui-hidden-md-up"/>
     </div>
 </template>
 

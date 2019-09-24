@@ -2,15 +2,19 @@
     <div>
       <mt-tabbar  v-model="selected" fixed >
         <mt-tab-item id="/">
+          <img slot="icon" src="../../assets/icon/home.png">
           主页
         </mt-tab-item>
         <mt-tab-item v-if="this.$store.state.Authorization!=''" id="/weekGraphy">
+          <img slot="icon" src="../../assets/icon/graphy.png">
           计时图
         </mt-tab-item>
         <mt-tab-item v-if="this.$store.state.Authorization!=''" id="/rank">
+          <img slot="icon" src="../../assets/icon/rank.png">
           排行榜
         </mt-tab-item >
         <mt-tab-item id="/login">
+          <img slot="icon" src="../../assets/icon/me.png">
           我的
         </mt-tab-item>
       </mt-tabbar>

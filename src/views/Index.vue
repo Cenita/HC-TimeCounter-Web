@@ -10,7 +10,7 @@
     </div>
     <rank class="mdui-hidden-sm-down"></rank>
     <rank class="mdui-hidden-md-up" v-if="this.$store.state.Authorization==''"></rank>
-    <div class="mdui-hidden-md-up" style="text-align: center;margin-top: 30px">
+    <div class="mdui-hidden-md-up"  v-if="this.$store.state.Authorization!=''" style="text-align: center;margin-top: 30px">
       <status></status>
     </div>
   </div>

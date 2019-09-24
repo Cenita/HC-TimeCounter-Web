@@ -1,5 +1,6 @@
 <template>
     <div>
+      <div class="mdui-hidden-md-up" style="height: 60px;text-align: center;font-size: 20px;color: #00b0ff;font-family: 'Microsoft YaHei UI';font-weight: 800">本周计时图</div>
       <div id="week_graphy" class="mdui-col-xs-12"  style="margin-top: -40px;height:400px"></div>
     </div>
 </template>
