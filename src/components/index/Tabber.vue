@@ -30,6 +30,9 @@
           }
       },
       watch:{
+          $route(to,from){
+            this.selected = to.path;
+          },
         selected:function(val,oldVal){
           this.$router.push(val.toString())
         }
