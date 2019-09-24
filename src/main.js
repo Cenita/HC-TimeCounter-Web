@@ -21,4 +21,25 @@ new Vue({
   store,
   components: { App },
   template: '<App/>'
+});
+router.beforeEach((to,from,next)=>{
+  if (to.meta.requireAuth){
+    if(store.state.Authorization==''){
+      next({
+        path:'/login',
+      })
+    }else{
+      next()
+    }
+  }else if(to.meta.noLogin){
+    if(store.state.Authorization!=''){
+      next({
+        path:'/set',
+      })
+    }else{
+      next()
+    }
+  }else{
+    next()
+  }
 })

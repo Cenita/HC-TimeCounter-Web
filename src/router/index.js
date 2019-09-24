@@ -26,25 +26,44 @@ export default new Router({
         component: panel,
         children:[{
           path:'/login',
+          meta:{
+            noLogin:true
+          },
           component: login
         },{
           path:'/register',
+          meta:{
+            noLogin:true
+          },
           component:register
         },{
           path:'/forget',
+          meta:{
+            noLogin:true
+          },
           component:forget
         }]
       },{
         path:'/set',
+        meta:{
+          requireAuth:true
+        },
         component: setter
       },{
         path:'/weekGraphy',
+        meta:{
+          requireAuth:true
+        },
         component:weekGraphy
       },{
         path:'/rank',
+        meta:{
+          requireAuth:true
+        },
         component:rank
       }
       ]
     }
   ]
 })
+

@@ -26,8 +26,8 @@
           }
       },
       watch:{
-        selected:function (val,oldVal) {
-          this.$router.push(val)
+        selected:function(val,oldVal){
+          this.$router.push(val.toString())
         }
       }
       ,
