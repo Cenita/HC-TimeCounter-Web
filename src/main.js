@@ -10,7 +10,10 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 Vue.config.productionTip = false;
 import store from './store'
+import axios from 'axios'
 import { Tabbar, TabItem } from 'mint-ui';
+Vue.prototype.$axios = axios
+axios.defaults.baseURL='http://192.168.99.137:1500'
 Vue.component(Tabbar.name, Tabbar);
 Vue.component(TabItem.name, TabItem);
 Vue.use(BootstrapVue)

@@ -41,7 +41,7 @@
             </tr>
             </thead>
             <tbody>
-            <item></item>
+              <item v-for="user in list" :itemUser="user"></item>
             </tbody>
           </table>
         </div>
@@ -56,6 +56,7 @@
       data:function(){
           return {
             itemIndex:0,
+            list:[]
           }
       },
       components:{
@@ -63,8 +64,18 @@
       },
       methods:{
         choiceTime:function (index) {
-          this.itemIndex = index
+          let _this = this;
+          this.itemIndex = index;
+          this.$axios.get('/api/getUserTime?type='+index).then(res => {
+            _this.list = res.data;
+          })
         }
+      },
+      created(){
+          let _this = this;
+          this.$axios.get('/api/getUserTime').then(res => {
+            _this.list = res.data;
+          })
       }
     }
 </script>
