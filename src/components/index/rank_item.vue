@@ -26,7 +26,7 @@
           bar:{
             time_string:this.itemUser.time,
             length:this.itemUser.prograss>=20?this.itemUser.prograss:20,
-            run:this.itemUser.isInTheRoom=='Y'?true:false
+            run:this.itemUser.isInTheRoom
           }
         }
       },
@@ -50,7 +50,7 @@
             return this.itemUser.time;
         },
         run:function () {
-          return this.itemUser.isInTheRoom=='Y'?true:false
+          return this.itemUser.isInTheRoom
         }
       },
     watch:{

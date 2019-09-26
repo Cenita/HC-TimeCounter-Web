@@ -20,6 +20,19 @@
           classset:"",
           status:true
         }
+      },computed:{
+          getCurrentStatus(){
+            return this.$store.state.Work;
+          }
+      },
+      watch:{
+          getCureentStatus(){
+            if(this.$store.state.Work){
+              this.setTrue();
+            }else{
+              this.setFalse();
+            }
+          }
       },
       methods:{
           setFalse:function () {
@@ -43,6 +56,14 @@
               this.status = !this.status
             }
           }
+      },created(){
+        this.$axios.get('/api/server').then(res=>{
+          if(res.data.data.server_status){
+            this.setTrue();
+          }else{
+            this.setFalse();
+          }
+        })
       }
     }
 </script>

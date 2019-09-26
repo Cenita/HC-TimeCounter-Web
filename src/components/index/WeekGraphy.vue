@@ -19,50 +19,63 @@
       name: "Week",
       mounted(){
         var myChart = echarts.init(document.getElementById('week_graphy'));
-        myChart.setOption({
-          tooltip: {
-            position: 'top'
-          },
-          xAxis: {
-            type: 'category',
-            data: hours,
-            splitArea: {
-              show: true
-            }
-          },
-          yAxis: {
-            type: 'category',
-            data: days,
-            splitArea: {
-              show: true
-            }
-          },
-          visualMap: {
-            min: 0,
-            max: 60,
-            calculable: true,
-            orient: 'horizontal',
-            left: 'center',
-            top:'0',
-            show:false
-          },
-          series: [{
-            name: '计时（分钟）',
-            type: 'heatmap',
-            data:[[0,0,5]],
-            label: {
-              normal: {
-                show: true
-              }
-            },
-            itemStyle: {
-              emphasis: {
-                shadowBlur: 10,
-                shadowColor: 'rgba(0, 0, 0, 0.5)',
+        this.$axios.get('/api/getMap').then(res=>{
+          if(res.data.code==401){
+            this.$router.push('/login');
+            return ;
+          }else if(res.data.code===200){
+            var gdata = res.data.data.map
+            gdata = gdata.map(function (item) {
+              return [item[1], item[0], item[2] || '-'];
+            });
+            myChart.setOption({
+              tooltip: {
+                position: 'top'
               },
-            }
-          }]
+              xAxis: {
+                type: 'category',
+                data: hours,
+                splitArea: {
+                  show: true
+                }
+              },
+              yAxis: {
+                type: 'category',
+                data: days,
+                splitArea: {
+                  show: true
+                }
+              },
+              visualMap: {
+                min: 0,
+                max: 60,
+                calculable: true,
+                orient: 'horizontal',
+                left: 'center',
+                top:'0',
+                show:false
+              },
+              series: [{
+                name: '计时（分钟）',
+                type: 'heatmap',
+                data:gdata,
+                label: {
+                  normal: {
+                    show: true
+                  }
+                },
+                itemStyle: {
+                  emphasis: {
+                    shadowBlur: 10,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)',
+                  },
+                }
+              }]
+            });
+          }
         });
+
+
       }
     }
 </script>

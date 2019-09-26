@@ -13,7 +13,23 @@ import store from './store'
 import axios from 'axios'
 import { Tabbar, TabItem } from 'mint-ui';
 Vue.prototype.$axios = axios
+Vue.config.devtools = true
 axios.defaults.baseURL='http://192.168.99.137:1500'
+//给所有请求头部加上token
+axios.interceptors.request.use(
+  config => {
+    //在所有请求头部添加token值
+    const token = store.state.Authorization;
+    if (token) {
+      config.headers['Authorization'] = token;
+    }
+    return config
+  },
+  error => {
+    return Promise.reject(error)
+  }
+);
+
 Vue.component(Tabbar.name, Tabbar);
 Vue.component(TabItem.name, TabItem);
 Vue.use(BootstrapVue)

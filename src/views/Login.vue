@@ -3,12 +3,12 @@
       <h3>计时器登录</h3>
       <div class="mdui-textfield mdui-textfield-floating-label" :class="{'mdui-textfield-invalid':number_error,'mdui-textfield-focus':stnumber}">
         <label class="mdui-textfield-label">学号</label>
-        <input class="mdui-textfield-input" v-model="stnumber" @blur="checkNumber" type="text" name="stdNumber" id="stdNumber"/>
+        <input class="mdui-textfield-input" v-model="stnumber" @blur="checkNumber" type="text" name="stdNumber"/>
         <label :hidden="!number_error" class="error-tips">{{number_error_text}}</label>
       </div>
       <div class="mdui-textfield mdui-textfield-floating-label" :class="{'mdui-textfield-invalid':password_error,'mdui-textfield-focus':password}">
         <label class="mdui-textfield-label">密码</label>
-        <input class="mdui-textfield-input"  v-model="password" @blur="checkPassword" type="password" name="stdPassword" id="stdPassword"/>
+        <input class="mdui-textfield-input"  v-model="password" @blur="checkPassword" type="password" name="stdPassword"/>
         <label :hidden="!password_error" class="error-tips">{{password_error_text}}</label>
       </div>
       <span><router-link to="/forget">忘记密码？</router-link></span>
@@ -35,14 +35,13 @@
           password:"",
           number_error:false,
           password_error:false,
-          loading:false,
           number_error_text:"",
           password_error_text:"",
           logining:false
         }
       },
       methods:{
-        ...mapMutations(['changeLogin']),
+        ...mapMutations(['changeLogin','setUserInfor','setWorkStatus']),
           checkNumber(){
             if(this.stnumber.length!=11){
               this.number_error = true
@@ -58,12 +57,33 @@
               this.password_error = false
             }
         },login(){
+            var _this = this;
             this.checkPassword();
             this.checkNumber();
+            this.logining = true;
             if(!this.password_error && !this.number_error){
-              this.changeLogin({Authorization:"asfasf"})
-              this.$router.push('/')
+              var login_data = {
+                number:this.stnumber,
+                password:this.password
+              };
+              this.$axios.post('/api/login',{data:login_data}).then(res=>{
+                if(res.data.code==401){
+                  this.password_error = true;
+                  this.password_error_text = "密码错误或账号不存在"
+                }else if(res.data.code===200){
+                  var token = res.data.data.token;
+                  this.changeLogin({Authorization:token});
+                  this.setUserInfor({User:res.data.data.user});
+                  this.setWorkStatus({Work:res.data.data.work});
+                  this.$router.push('/');
+                }
+              }).catch(err=>{
+                this.password_error = true
+                this.password_error_text = "计时服务器崩坏"
+              })
+              this.logining = false;
             }else{
+              this.logining = false;
               return false;
             }
         }

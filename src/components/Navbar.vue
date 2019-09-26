@@ -30,7 +30,9 @@
         toIndex(){
           this.$router.push('/')
         }
-      }
+      },created(){
+
+    }
     }
 </script>
 

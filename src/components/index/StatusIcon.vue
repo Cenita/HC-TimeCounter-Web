@@ -9,7 +9,7 @@
         name: "StatusIcon",
         data:function () {
           return {
-            status:0//0是停止 1是正常
+            status:0//1是停止 0是正常
           }
         },
         computed:{
@@ -26,8 +26,14 @@
               return 'red'
             }
           }
-
-        }
+        },
+      created(){
+          if(this.$store.state.UserInRoom){
+            this.status=0;
+          }else{
+            this.status=1;
+          }
+      }
     }
 </script>
 

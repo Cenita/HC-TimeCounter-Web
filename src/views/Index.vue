@@ -22,14 +22,17 @@
     const time_counter = () => import('../components/index/TimeCounter')
     const week_graphy = () => import('../components/index/WeekPanel')
     const status = () => import('../components/nav/ServerStatus')
+    import {mapMutations} from 'vuex'
     export default {
         name: "Index",
       data:function(){
           return {
             user:{
-              name:"陈慧涛"
+              name:this.$store.state.Name
             }
           }
+      },methods:{
+        ...mapMutations(['changeLogin','setUserInfor','setWorkStatus']),
       },
       components:{
           rank,
@@ -37,6 +40,18 @@
         time_counter,
         week_graphy,
         status
+      },created(){
+          var _this = this;
+        if(this.$store.state.Authorization!=''){
+          this.$axios.get('/api/user').then(res=>{
+            if(res.data.code==401){
+              _this.$router.push('/login')
+            }else if(res.data.code===200){
+              _this.name = res.data.data.user.user_name;
+              _this.setUserInfor({User:res.data.data.user});
+            }
+          })
+        }
       }
     }
 </script>

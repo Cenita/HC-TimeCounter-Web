@@ -9,14 +9,15 @@
 </template>
 
 <script>
+  var interVal;
     export default {
         name: "TimeCounter",
       data:function () {
         return{
           time:{
-            hours:15,
-            minutus:59,
-            seconds:59
+            hours:Number(this.$store.state.Time.Hours),
+            minutus:Number(this.$store.state.Time.Minutes),
+            seconds:Number(this.$store.state.Time.Seconds)
           }
         }
       },
@@ -37,9 +38,26 @@
           },
           getMinutesNumber(){
             return this.time.minutus
-        },
+        },getUserWork(){
+            return this.$store.state.UserInRoom
+        },getGlobalMinutes(){
+            return Number(this.$store.state.Time.Minutes)
+        },getGlobalSeconds(){
+          return Number(this.$store.state.Time.Seconds)
+        },getGlobalHours(){
+          return Number(this.$store.state.Time.Hours)
+        }
       },
       watch:{
+        getGlobalMinutes(){
+          this.time.minutus = Number(this.$store.state.Time.Minutes)
+        },
+        getGlobalSeconds(){
+          this.time.seconds = Number(this.$store.state.Time.Seconds)
+        },
+        getGlobalHours(){
+          this.time.hours = Number(this.$store.state.Time.Hours)
+        },
         getMinutesNumber(val){
           if(val>=60){
             this.time.hours+=1
@@ -51,13 +69,23 @@
             this.time.minutus+=1
             this.time.seconds=0
           }
+        },getUserWork(){
+          if(this.getUserWork()){
+            interVal = setInterval(function () {
+              _this.time.seconds+=1
+            },1000)
+          }else{
+            clearInterval(interVal)
+          }
         }
       },
       created(){
           var _this=this;
-          setInterval(function () {
-            _this.time.seconds+=1
-          },1000)
+          if(this.$store.state.UserInRoom){
+            interVal = setInterval(function () {
+              _this.time.seconds+=1
+            },1000)
+          }
       }
     }
 </script>
