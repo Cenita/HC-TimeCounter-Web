@@ -25,8 +25,19 @@
             }else if(this.status==1){
               return 'red'
             }
+          },getStatus(){
+            return this.$store.state.UserInRoom
           }
         },
+      watch:{
+          getStatus(val) {
+            if(val){
+              this.status = 0;
+            }else{
+              this.status = 1;
+            }
+          }
+      },
       created(){
           if(this.$store.state.UserInRoom){
             this.status=0;

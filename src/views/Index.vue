@@ -1,8 +1,8 @@
 <template>
 
-  <div id="bd">
+  <div id="bd" style="min-height: 500px;">
     <div v-if="this.$store.state.Authorization!=''" class="user" style="text-align: center;">
-      <img src="../assets/image/men.jpg" width="150px" style="border-radius: 100%;" alt="">
+      <img :src="this.user.head_url" width="150px" height="150px" style="border-radius: 100%;" alt="">
       <div class="name" style=""><span>{{user.name}}</span></div>
       <icon></icon>
       <time_counter></time_counter>
@@ -22,13 +22,15 @@
     const time_counter = () => import('../components/index/TimeCounter')
     const week_graphy = () => import('../components/index/WeekPanel')
     const status = () => import('../components/nav/ServerStatus')
+    import {getUser} from '../api/web'
     import {mapMutations} from 'vuex'
     export default {
         name: "Index",
       data:function(){
           return {
             user:{
-              name:this.$store.state.Name
+              name:this.$store.state.Name,
+              head_url:""
             }
           }
       },methods:{
@@ -43,13 +45,10 @@
       },created(){
           var _this = this;
         if(this.$store.state.Authorization!=''){
-          this.$axios.get('/api/user').then(res=>{
-            if(res.data.code==401){
-              _this.$router.push('/login')
-            }else if(res.data.code===200){
-              _this.name = res.data.data.user.user_name;
-              _this.setUserInfor({User:res.data.data.user});
-            }
+          getUser().then(res=>{
+            _this.user.name = res.data.user.user_name;
+            _this.user.head_url = _this.$url+res.data.user.head;
+            _this.setUserInfor({User:res.data.user});
           })
         }
       }

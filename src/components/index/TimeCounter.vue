@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="font-size: 40px;color: #55c0df;">
     <div style="display: inline-block" id="Hours">{{getTimeString(time.hours)}}</div>
     <div style="display: inline-block" >:</div>
     <div style="display: inline-block" id="Minutes">{{getTimeString(time.minutus)}}</div>
@@ -18,7 +18,8 @@
             hours:Number(this.$store.state.Time.Hours),
             minutus:Number(this.$store.state.Time.Minutes),
             seconds:Number(this.$store.state.Time.Seconds)
-          }
+          },
+          run:false
         }
       },
       methods:{
@@ -27,6 +28,13 @@
             t = "" + t;
             t = t.slice(1,3);
             return t
+        },stopInterval:function () {
+          clearInterval(interVal)
+        },runInterval:function () {
+            var _this = this;
+          interVal = setInterval(function () {
+            _this.time.seconds+=1
+          },1000)
         }
       },
       computed:{
@@ -69,22 +77,20 @@
             this.time.minutus+=1
             this.time.seconds=0
           }
-        },getUserWork(){
-          if(this.getUserWork()){
-            interVal = setInterval(function () {
-              _this.time.seconds+=1
-            },1000)
+        },getUserWork(val){
+          this.run = val;
+        },run:function () {
+          if(this.run){
+            this.runInterval()
           }else{
-            clearInterval(interVal)
+            this.stopInterval()
           }
         }
       },
       created(){
           var _this=this;
           if(this.$store.state.UserInRoom){
-            interVal = setInterval(function () {
-              _this.time.seconds+=1
-            },1000)
+            this.run = true
           }
       }
     }

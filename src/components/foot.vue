@@ -57,17 +57,16 @@
           <p>有你们工作室因此更美好</p>
           <div>&nbsp</div>
           <p>备案号</p>
-          <p>粤ICP备14046782号 © 2017 HCLAB since 1999. All rights reserved</p>
+          <a href="http://www.beian.miit.gov.cn">粤ICP备19143358号 © 2019 HCLAB since 1999. All rights reserved</a>
           <div>&nbsp</div>
           <p>相关链接</p>
-          <p style="margin-bottom: 0px"><a href="http://www.hclab.com">工作室官网</a></p>
+          <p style="margin-bottom: 0px"><a href="http://www.hclab.cn">工作室官网</a></p>
         </div>
       </div>
-      <div v-else class="content" style="color: white;text-align: center;">
-
-        <p>粤ICP备14046782号 © 2017 HCLAB since 1999. All rights reserved</p>
+      <div v-else class="content" style="color: white;text-align: center;min-height: 260px;">
+        <a href="http://www.beian.miit.gov.cn">粤ICP备19143358号 © 2019 HCLAB since 1999. All rights reserved</a>
         <p>相关链接</p>
-        <p style="margin-bottom: 0px"><a href="http://www.hclab.com">工作室官网</a></p>
+        <p style="margin-bottom: 0px"><a href="http://www.hclab.cn">工作室官网</a></p>
         <div class="mdui-hidden-md-up">
           <status></status>
         </div>

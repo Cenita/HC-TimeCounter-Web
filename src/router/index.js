@@ -9,11 +9,12 @@ const forget = () => import('@/views/Forget')
 const setter = () => import('@/views/Setter')
 const weekGraphy = () => import('@/components/index/weekGraphy')
 const rank = () => import('@/components/index/rank')
-
+const developer = () => import('@/components/setter/Developer')
+const setIndex = () => import('@/components/setter/Index')
+const setAvatar = () => import('@/components/setter/setAvatar')
 Vue.use(Router)
-
 export default new Router({
-  mode:'hash',
+  mode:'history',
   routes: [
     {
       path:'/',
@@ -48,7 +49,23 @@ export default new Router({
         meta:{
           requireAuth:true
         },
-        component: setter
+        component: setter,
+        children:[{
+          path:'/set',
+          component: setIndex
+        },{
+          path:'/set/developer',
+          meta:{
+            requireAuth:true
+          },
+          component: developer,
+        },{
+          path:'/set/avatar',
+          meta:{
+            requireAuth:true
+          },
+          component: setAvatar,
+        }]
       },{
         path:'/weekGraphy',
         meta:{

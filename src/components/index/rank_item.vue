@@ -2,8 +2,8 @@
   <tr>
     <td>{{itemUser.num}}</td>
     <td>
-      <div class="mdui-chip" style="background: white">
-        <img class="mdui-chip-icon" src="../../assets/image/men.jpg">
+      <div class="mdui-chip mdui-ripple" v-b-tooltip.hover :title="itemUser.grade" style="background: white;">
+        <img class="mdui-chip-icon" :src="src">
         <span class="mdui-chip-title">{{itemUser.name}}</span>
       </div>
     </td>
@@ -22,14 +22,16 @@
       props: ['itemUser'],
       data:function () {
         return {
-          img_src:"../assets/image/men.jpg",
+          sex:this.itemUser.sex,
+          src:this.$url+this.itemUser.avatar_path,
           bar:{
-            time_string:this.itemUser.time,
+            time_string:this.itemUser.time.hours+"小时"+this.itemUser.time.minutes+'分钟',
             length:this.itemUser.prograss>=20?this.itemUser.prograss:20,
             run:this.itemUser.isInTheRoom
           }
         }
       },
+
       computed:{
           variant:function () {
             if(this.run){
@@ -47,10 +49,13 @@
             return this.itemUser.prograss>=20?this.itemUser.prograss:20;
           },
           time_string:function () {
-            return this.itemUser.time;
+            return this.itemUser.time.hours+"小时"+this.itemUser.time.minutes+'分钟';
         },
         run:function () {
           return this.itemUser.isInTheRoom
+        },
+        head_path:function () {
+          return this.itemUser.avatar_path
         }
       },
     watch:{
@@ -62,6 +67,10 @@
       },
       run(){
         this.bar.run = this.run;
+      },
+      head_path(){
+        this.sex = this.itemUser.sex
+        this.src = this.$url+this.itemUser.avatar_path
       }
     }
     }
@@ -70,5 +79,6 @@
 <style scoped>
   .mdui-ripple:hover{
     cursor: pointer;
+
   }
 </style>

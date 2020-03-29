@@ -2,14 +2,20 @@
     <div>
       <div class="page" mdui-menu="{target: '#loginPage'}" >
         <div  style="border: 0px;margin-right: 10px;width: 40px;height: 40px" class="mdui-btn mdui-btn-icon">
-          <img src="../../assets/image/men.jpg" alt="" style="width: 40px;">
+          <img :src="img_src" alt="" style="width: 40px;height: 40px;">
         </div>
-        <span  style="margin-right: 20px">陈慧涛</span>
+        <span  style="margin-right: 20px">{{this.$store.state.Name}}</span>
       </div>
 
       <ul id="loginPage" class="mdui-menu">
         <li class="mdui-menu-item">
-          <a @click="toSet" class="mdui-ripple">设置</a>
+          <a @click="toSet('set')" class="mdui-ripple">设置Mac地址</a>
+        </li>
+        <li class="mdui-menu-item">
+          <a @click="toSet('avatar')" class="mdui-ripple">设置头像</a>
+        </li>
+        <li class="mdui-menu-item">
+          <a @click="toSet('developer')" class="mdui-ripple">开发人员</a>
         </li>
         <li class="mdui-menu-item">
           <a @click="loginOut" class="mdui-ripple">退出登录</a>
@@ -22,10 +28,29 @@
     import {mapMutations} from 'vuex'
     export default {
         name: "HasLoginButtom",
+      data:function(){
+          return {
+            img_src:this.$url + this.$store.state.Avatar
+          }
+      },
+      computed:{
+          head_src:function () {
+            return this.$store.state.Avatar
+          }
+      },
+      watch:{
+          head_src:function () {
+            this.img_src = this.$url + this.$store.state.Avatar
+          }
+      },
       methods:{
         ...mapMutations(['changeLogin']),
-          toSet(){
-            this.$router.push('/set')
+          toSet(value){
+            if(value=='set'){
+              this.$router.push('/set')
+            }else{
+              this.$router.push('/set/'+value)
+            }
           },
           loginOut(){
             this.changeLogin({Authorization:""})

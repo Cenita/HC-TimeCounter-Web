@@ -11,6 +11,7 @@
 </template>
 
 <script>
+    import {getServerStatus} from "../../api/web";
     export default {
         name: "ServerStatus",
       data:function () {
@@ -36,7 +37,6 @@
       },
       methods:{
           setFalse:function () {
-            var _this = this;
             this.infor_text = "计时服务异常，请联系管理员解决";
             this.classset = "setColorRed";
             this.checkset = false
@@ -57,12 +57,12 @@
             }
           }
       },created(){
-        this.$axios.get('/api/server').then(res=>{
-          if(res.data.data.server_status){
-            this.setTrue();
-          }else{
-            this.setFalse();
-          }
+        getServerStatus().then(res=>{
+          if(res.data.server_status){
+                this.setTrue();
+              }else{
+                this.setFalse();
+              }
         })
       }
     }

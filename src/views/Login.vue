@@ -8,11 +8,11 @@
       </div>
       <div class="mdui-textfield mdui-textfield-floating-label" :class="{'mdui-textfield-invalid':password_error,'mdui-textfield-focus':password}">
         <label class="mdui-textfield-label">密码</label>
-        <input class="mdui-textfield-input"  v-model="password" @blur="checkPassword" type="password" name="stdPassword"/>
+        <input class="mdui-textfield-input" @keydown.enter="checkPassword"  v-model="password" @blur="checkPassword" type="password" name="stdPassword"/>
         <label :hidden="!password_error" class="error-tips">{{password_error_text}}</label>
       </div>
-      <span><router-link to="/forget">忘记密码？</router-link></span>
-      <span style="float: right"><router-link to="/register">我要注册</router-link></span>
+      <!--<span><router-link to="/forget">忘记密码？</router-link></span>-->
+      <span style="float: right"><router-link to="/register">没账号？我是考核成员</router-link></span>
       <button :hidden="logining" type="button" @keyup.enter="login"  @click="login" id="loginbtn" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent mdui-color-blue-600">登录</button>
       <div class="mdui-progress" style="margin-top: 40px" :hidden="!logining">
         <div class="mdui-progress-indeterminate"></div>
@@ -25,6 +25,8 @@
 
 <script>
   import {mapMutations} from 'vuex'
+  import {Login} from '../api/web'
+  import {Toast} from 'mint-ui'
   const status = () => import('../components/nav/ServerStatus')
     export default {
         name: "Login",
@@ -39,6 +41,16 @@
           password_error_text:"",
           logining:false
         }
+      }
+      ,created(){
+        let that = this;
+        document.onkeypress = function(e) {
+          var keycode = document.all ? event.keyCode : e.which;
+          if (keycode == 13) {
+            that.login();// 登录方法名
+            return false;
+          }
+        };
       },
       methods:{
         ...mapMutations(['changeLogin','setUserInfor','setWorkStatus']),
@@ -66,20 +78,20 @@
                 number:this.stnumber,
                 password:this.password
               };
-              this.$axios.post('/api/login',{data:login_data}).then(res=>{
-                if(res.data.code==401){
-                  this.password_error = true;
-                  this.password_error_text = "密码错误或账号不存在"
-                }else if(res.data.code===200){
-                  var token = res.data.data.token;
-                  this.changeLogin({Authorization:token});
-                  this.setUserInfor({User:res.data.data.user});
-                  this.setWorkStatus({Work:res.data.data.work});
-                  this.$router.push('/');
+              Login({data:login_data}).then(res=>{
+                if(res.code===200){
+                  if(res.data.token!=null){
+                    var token = res.data.token;
+                    this.changeLogin({Authorization:token});
+                    this.setUserInfor({User:res.data.user});
+                    this.setWorkStatus({Work:res.data.work});
+                    this.$router.push('/');
+                  }else{
+                    Toast({
+                      message:res.data
+                    })
+                  }
                 }
-              }).catch(err=>{
-                this.password_error = true
-                this.password_error_text = "计时服务器崩坏"
               })
               this.logining = false;
             }else{

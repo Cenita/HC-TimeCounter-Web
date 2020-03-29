@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div style="margin-top: -30px;">
       <div>
         <router-link to="/login" >
           <i class="mdui-icon material-icons">arrow_back</i><span>返回登录</span>
@@ -18,11 +18,11 @@
         <input class="mdui-textfield-input" v-model="name.text" @blur="checkName" type="text" name="name"/>
         <label v-if="name.error" class="error-tips">请输入姓名</label>
       </div>
-      <div class="mdui-textfield mdui-textfield-floating-label" :class="{'mdui-textfield-invalid':email.error,'mdui-textfield-focus':email.text}">
-        <label class="mdui-textfield-label">邮箱</label>
-        <input class="mdui-textfield-input" v-model="email.text" @blur="checkEmail" type="text" name="email"/>
-        <label v-if="email.error" class="error-tips">请输入正确的邮箱格式</label>
-      </div>
+      <!--<div class="mdui-textfield mdui-textfield-floating-label" :class="{'mdui-textfield-invalid':email.error,'mdui-textfield-focus':email.text}">-->
+        <!--<label class="mdui-textfield-label">邮箱</label>-->
+        <!--<input class="mdui-textfield-input" v-model="email.text" @blur="checkEmail" type="text" name="email"/>-->
+        <!--<label v-if="email.error" class="error-tips">请输入正确的邮箱格式</label>-->
+      <!--</div>-->
       <div class="mdui-textfield mdui-textfield-floating-label" :class="{'mdui-textfield-invalid':password.error,'mdui-textfield-focus':password.text}">
         <label class="mdui-textfield-label">密码</label>
         <input class="mdui-textfield-input" v-model="password.text" @blur="checkPassword" type="password" name="password"/>
@@ -45,12 +45,12 @@
           </span>
         </div>
         <label class="mdui-radio" style="margin-left: 20px">
-          <input type="radio" @click="sex.select=0" name="sex" :checked="sex.select==0"/>
+          <input type="radio" v-model="sex.val" value="男" @click="sex.select=0" name="sex" :checked="sex.select==0"/>
           <i class="mdui-radio-icon"></i>
           男生
         </label>
         <label class="mdui-radio" style="margin-left: 20px">
-          <input type="radio" @click="sex.select=1" name="sex" :checked="sex.select==1"/>
+          <input type="radio" v-model="sex.val" value="女" @click="sex.select=1" name="sex" :checked="sex.select==1"/>
           <i class="mdui-radio-icon"></i>
           女生
         </label>
@@ -62,14 +62,14 @@
           </span>
         </div>
         <label class="mdui-radio" style="margin-left: 20px">
-          <input type="radio" @click="grade.select=0" name="grade" :checked="grade.select==0"/>
+          <input type="radio" value="0" v-model="grade.val" @click="grade.select=0" name="grade" :checked="grade.select==0"/>
           <i class="mdui-radio-icon" ></i>
-          2018级
+          {{grade.one}}
         </label>
         <label class="mdui-radio" style="margin-left: 20px">
-          <input type="radio" @click="grade.select=1" name="grade" :checked="grade.select==1"/>
+          <input type="radio" value="1" v-model="grade.val"  @click="grade.select=1" name="grade" :checked="grade.select==1"/>
           <i class="mdui-radio-icon"></i>
-          2019级
+          {{grade.two}}
         </label>
       </div>
       <button v-if="register.status==0" type="button" @keyup.enter="regist"  @click="regist" id="register_bottom" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-red mdui-color-blue-600">注册</button>
@@ -80,10 +80,16 @@
 </template>
 
 <script>
+    import {getGrade,sendRegiter} from "../api/web";
+    import {Toast} from 'mint-ui'
     export default {
         name: "register",
       data:function () {
         return{
+          grade:{
+            one:"",
+            two:""
+          },
           number:{
             error:false,
             text:""
@@ -109,15 +115,25 @@
             text:""
           },
           sex:{
-            select:0
+            select:0,
+            val:"男"
           },
           grade:{
-            select:0
+            select:0,
+            val:0
           },
           register:{
-            status:0//0是按钮，1是登录
+            status:0 //0是按钮，1是登录
           }
         }
+      },
+      mounted(){
+          var _this = this;
+          getGrade().then(res=>{
+            _this.grade.one = res.data[0].toString()+' 级';
+            _this.grade.two = res.data[1].toString()+' 级';
+          })
+
       },
       computed:{
         canRegister:function () {
@@ -138,13 +154,6 @@
             this.name.error=true
           }else{
             this.name.error=false
-          }
-        },
-        checkEmail(){
-          if(this.email.text.search(/@.*com/i)==-1){
-            this.email.error=true
-          }else{
-            this.email.error=false
           }
         },
         checkPassword(){
@@ -169,11 +178,37 @@
           this.checkPassword()
           this.checkCode()
           this.checkComfirm()
-          this.checkEmail()
           this.checkName()
-          if(this.canRegister){
-            this.register.status=1
-          }else{
+          var register_data;
+          if (this.canRegister) {
+            var _this = this;
+            this.register.status = 1
+            register_data = {
+              "stdNumber": _this.number.text,
+              "stdName": _this.name.text,
+              "password": _this.password.text,
+              "code": _this.code.text,
+              "sex": _this.sex.val,
+              "grade": _this.grade.val
+            };
+            sendRegiter(register_data).then(res => {
+              Toast({
+                message: res.data
+              });
+              if(res.data==='注册成功'){
+                _this.$router.push('/login')
+              }else{
+                if(res.data==='账号已经存在'){
+                  _this.number.error=true
+                }else if(res.data==='姓名已经存在'){
+                  _this.name.error=true
+                }else if(res.data==='验证码错误'){
+                  _this.code.error=true
+                }
+              }
+              _this.register.status = 0
+            })
+          } else {
             return;
           }
         }

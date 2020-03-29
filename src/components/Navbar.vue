@@ -17,9 +17,9 @@
 </template>
 
 <script>
-  const ServerStatus = () => import('./nav/ServerStatus')
-  const LoginButtom = () => import('./nav/LoginButtom')
-  const HasLogin = () => import('./nav/HasLoginButtom')
+  const ServerStatus = () => import('./nav/ServerStatus');
+  const LoginButtom = () => import('./nav/LoginButtom');
+  const HasLogin = () => import('./nav/HasLoginButtom');
   export default {
       components:{
         ServerStatus,

@@ -1,122 +1,58 @@
 <template>
-  <div>
-    <h3>你好，{{name}}！</h3>
-    <div class="mdui-hidden-md-down" style="font-size: 10px;">
-      <h4 style="color: darkgrey">很高兴在环创遇见你，在环创大家庭里希望大家能遵守属于环创的“家规”。</h4>
-      <p>&nbsp</p>
-      <h4 style="color: darkgrey">环创计时制度：在一周内24小时为优秀，15小时以上为及格，15小时以下会做出相应惩罚，连续4星期计时优秀将会予以相应的奖励。</h4>
-      <h4 style="color: darkgrey">计时制度适用时间：学期间2-15周</h4>
-      <p style="color: darkgrey">以下有MAC地址查询教程</p>
-      <p>
-        <a href="https://jingyan.baidu.com/article/adc81513591780f722bf7374.html" target="_blank">win10系统</a>
-        <a href="https://jingyan.baidu.com/article/2d5afd69f105b985a2e28e20.html" target="_blank">IOS系统</a>
-        <a href="https://jingyan.baidu.com/article/fcb5aff77459e2edab4a7177.html" target="_blank">安卓系统</a>
-      </p>
-      <h4 style="color: darkgrey">请各位小伙伴请填写常用设备的网络MAC地址，设备连接工作室WIFI后即可自动开始计时,无需打开网页</h4>
+    <div style="margin-top: 0px;">
+      <mt-navbar v-model="selected" class="mdui-hidden-md-up">
+        <mt-tab-item id="1">设置MAC地址</mt-tab-item>
+        <mt-tab-item id="2">设置头像</mt-tab-item>
+        <mt-tab-item id="3">开发人员</mt-tab-item>
+      </mt-navbar>
+      <router-view style="margin-top: 20px;"></router-view>
     </div>
-    <div style="height: 100px" class="mdui-textfield mdui-textfield-floating-label" :class="{'mdui-textfield-invalid':mobileError}" id="mobile">
-      <label class="mdui-textfield-label">手机Mac地址填写(例如  94-87-E0-31-6B-75  的格式)</label>
-      <input class="mdui-textfield-input" maxlength="17" v-model="mac.mobile" type="text" name="mobile_mac" id="mobile_macString"/>
-      <div class="mdui-textfield-error errorContent" style="bottom: 0px;">Mac地址格式错误</div>
-    </div>
-    <div style="height: 100px" class="mdui-textfield mdui-textfield-floating-label" :class="{'mdui-textfield-invalid':computerError}" id="computer">
-      <label class="mdui-textfield-label">电脑Mac地址填写(例如  94-87-E0-31-6B-75  的格式)</label>
-      <input class="mdui-textfield-input" maxlength="17" v-model="mac.computer" type="text" name="computer_mac" id="computer_macString"/>
-      <div class="mdui-textfield-error errorContent" style="bottom: 0px;">Mac地址格式错误</div>
-    </div>
-    <button type="button" style="margin-top: 20px;width: 100%" @click="save" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent mdui-color-blue-600">保存</button>
-    <button type="button" style="margin-top: 20px;width: 100%" @click="loginOut" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-red mdui-color-blue-600 mdui-hidden-md-up">退出登录</button>
-    <div class="mdui-hidden-md-up" style="padding: 15px;color: #919da4;margin-top: 70px;text-align:center;">
-      <p>开发人员简介</p>
-      <div>&nbsp</div>
-      <p>新计时器系统</p>
-      <p>前端，后端，UI设计，爬虫：陈慧涛</p>
-      <p>服务器配置：陆仁东</p>
-      <p>&nbsp</p>
-      <p>旧计时器客户端版本</p>
-      <p>客户端：陈潼生，张晓煌</p>
-      <p>服务端：邹峰</p>
-      <p>UI：刘毓奔</p>
-      <p>1.4版本修改：林伟城，何家良</p>
-      <p>2.0版本修改：杨容光</p>
-      <div>&nbsp</div>
-      <p>真诚的感谢所有为工作室奉献过的人</p>
-      <p>有你们工作室因此更美好</p>
-      <div>&nbsp</div>
-      <p>备案号</p>
-      <p>粤ICP备14046782号 © 2017 HCLAB since 1999. All rights reserved</p>
-      <div>&nbsp</div>
-    </div>
-  </div>
 </template>
 
 <script>
-  import {mapMutations} from 'vuex'
     export default {
         name: "Setter",
       data:function () {
         return {
-          name:'陈慧涛',
-          mac:{
-            mobile:"",
-            computer:""
-          },
-          computerError:false,
-          mobileError:false
+          selected:"1"
         }
+      },methods:{
       },
-      computed:{
-          getMobileMac(){
-            return this.mac.mobile
+      created(){
+        var url = this.$route.path;
+        if(url=='/set'){
+          this.selected="1"
+        }else if(url=='/set/avatar'){
+          this.selected="2"
+        }else if(url=='/set/developer'){
+          this.selected='3'
+        }
+      },watch:{
+          $route(to,from){
+            var url = to.path;
+            if(url=='/set'){
+              this.selected="1"
+            }else if(url=='/set/avatar'){
+              this.selected="2"
+            }else if(url=='/set/developer'){
+              this.selected='3'
+            }
           },
-          getComputerMac(){
-            return this.mac.computer
+          selected:function (val) {
+            if(val==1){
+              this.$router.push('/set')
+            }else if(val==2){
+              this.$router.push('/set/avatar')
+            }else if(val==3){
+              this.$router.push('/set/developer')
+            }
           }
-      }
-      ,
-      watch:{
-        getMobileMac(val){
-          this.mac.mobile = this.helpInput(val)
-        },
-        getComputerMac(val){
-          this.mac.computer = this.helpInput(val)
-        }
-      }
-      ,
-      methods:{
-        ...mapMutations(['changeLogin']),
-        helpInput(val){
-          val = val.toString().toUpperCase();
-          switch (val.length) {
-            case 2:
-            case 5:
-            case 8:
-            case 11:
-            case 14:
-              val+='-'
-          }
-          return val
-        },
-        loginOut(){
-          this.changeLogin({Authorization:""});
-          this.$router.push('/login')
-        },
-        save(){
-          this.mobileError=false;
-          this.computerError=false;
-          if(this.mac.mobile.length>0&&this.mac.mobile.length<17){
-            this.mac.mobile=""
-            this.mobileError=true
-          }
-          if(this.mac.computer.length>0&&this.mac.computer.length<17){
-            this.mac.computer=""
-            this.computerError=true
-          }
-        }
       }
     }
 </script>
 
 <style scoped>
-
+  mt-navbar>*:hover{
+    cursor: pointer;
+  }
 </style>

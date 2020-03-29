@@ -11,42 +11,28 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 Vue.config.productionTip = false;
 import store from './store'
 import axios from 'axios'
-import { Tabbar, TabItem } from 'mint-ui';
-Vue.prototype.$axios = axios
+import {Navbar,Tabbar, TabItem} from 'mint-ui';
+Vue.prototype.$url = 'http://47.112.206.79:1500';
 Vue.config.devtools = true
-axios.defaults.baseURL='http://192.168.99.137:1500'
 //给所有请求头部加上token
-axios.interceptors.request.use(
-  config => {
-    //在所有请求头部添加token值
-    const token = store.state.Authorization;
-    if (token) {
-      config.headers['Authorization'] = token;
-    }
-    return config
-  },
-  error => {
-    return Promise.reject(error)
-  }
-);
-
+Vue.component(Navbar.name, Navbar);
 Vue.component(Tabbar.name, Tabbar);
 Vue.component(TabItem.name, TabItem);
 Vue.use(BootstrapVue)
 /* eslint-disable no-new */
-new Vue({
+export const main = new Vue({
   el: '#app',
   router,
   store,
   components: { App },
-  template: '<App/>'
+  template: '<App/>',
 });
 router.beforeEach((to,from,next)=>{
   if (to.meta.requireAuth){
     if(store.state.Authorization==''){
-      next({
-        path:'/login',
-      })
+        next({
+          path:'/login',
+        })
     }else{
       next()
     }

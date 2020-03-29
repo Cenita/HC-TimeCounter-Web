@@ -6,7 +6,7 @@ const store = new Vuex.Store({
 
   state: {
     // 存储token
-    Authorization: localStorage.getItem('Authorization') ? localStorage.getItem('Authorization') : '',
+    Authorization: localStorage.getItem('Authorization') ? localStorage.getItem('Authorization') == "undefined"? "":localStorage.getItem('Authorization') : '',
     UserInRoom:false,
     Sex:'man',
     Time:{
@@ -16,7 +16,9 @@ const store = new Vuex.Store({
     },
     User_id:0,
     Name:"",
-    Work:false
+    Work:false,
+    Avatar:"",
+    Type:"正式成员"
   },
 
   mutations: {
@@ -32,6 +34,8 @@ const store = new Vuex.Store({
       state.Time.Seconds = user.User.time.seconds;
       state.User_id = user.User.user_id;
       state.Name = user.User.user_name;
+      state.Avatar = user.User.head;
+      state.Type = user.User.type;
     },setWorkStatus(state,user){
       state.Work = user.Work;
     }

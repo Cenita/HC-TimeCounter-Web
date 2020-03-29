@@ -17,13 +17,25 @@
   const narbar = () => import('@/components/Navbar')
   const inform = () => import('@/components/foot')
   const tabber = () => import('@/components/index/Tabber')
-    export default {
+  import {getUser} from "../api/web";
+  import {mapMutations} from 'vuex'
+  export default {
         name: "index",
         components:{
           narbar,
           inform,
           tabber
+        },created(){
+        var _this = this;
+        if(this.$store.state.Authorization!=''){
+          getUser().then(res=>{
+            _this.setUserInfor({User:res.data.user});
+          })
         }
+      },
+      methods:{
+        ...mapMutations(['setUserInfor']),
+      }
     }
 </script>
 
