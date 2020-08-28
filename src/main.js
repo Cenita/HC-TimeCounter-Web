@@ -12,7 +12,7 @@ Vue.config.productionTip = false;
 import store from './store'
 import axios from 'axios'
 import {Navbar,Tabbar, TabItem} from 'mint-ui';
-Vue.prototype.$url = 'http://47.112.206.79:1500';
+Vue.prototype.$url = 'http://jb.hclab.cn';
 Vue.config.devtools = true
 //给所有请求头部加上token
 Vue.component(Navbar.name, Navbar);
